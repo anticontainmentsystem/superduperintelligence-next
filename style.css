@@ -231,3 +231,7 @@ body.cue-left .edge-cue { opacity: .75; transition-delay: var(--open); }
 .field > .clear { align-self: flex-start; margin-top: 6px; }
 .options li > .clear { margin-right: -6px; }
 .options li > .clear svg { width: 10px; height: 10px; }
+@media (max-width: 760px), (pointer: coarse) and (orientation: portrait) {
+  /* Four lines on phones so the Guide placeholder fits beside the clear button. Still a fixed height. */
+  .field > textarea { height: calc((var(--text) + 3px) * 1.4 * 4 + 18px); }
+}
