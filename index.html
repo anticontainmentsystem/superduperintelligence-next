@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no, interactive-widget=overlays-content">
+<title>NEXT | Super Duper Intelligence | Ask the Brain</title>
+<meta name="description" content="A Canadian flag with a thinking brain. Ask yes or no and get its confidence, score an idea from 0 to 100, or let it pick the best option.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://superduperintelligence.ca/">
+<meta name="theme-color" content="#D52B1E">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Super Duper Intelligence">
+<meta property="og:locale" content="en_CA">
+<meta property="og:url" content="https://superduperintelligence.ca/">
+<meta property="og:title" content="Super Duper Intelligence | Ask the Brain">
+<meta property="og:description" content="A Canadian flag with a thinking brain. Ask yes or no and get its confidence, score an idea from 0 to 100, or let it pick the best option.">
+<meta property="og:image" content="https://superduperintelligence.ca/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A red 3D brain in the white centre of a red and white Canadian style flag.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Super Duper Intelligence | Ask the Brain">
+<meta name="twitter:description" content="A Canadian flag with a thinking brain. Ask yes or no and get its confidence, score an idea from 0 to 100, or let it pick the best option.">
+<meta name="twitter:image" content="https://superduperintelligence.ca/og-image-x.png">
+<meta name="twitter:image:alt" content="A red 3D brain in the white centre of a red and white Canadian style flag.">
+<script type="application/ld+json">[
+ {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Super Duper Intelligence",
+  "url": "https://superduperintelligence.ca/",
+  "description": "A Canadian flag with a thinking brain. Ask yes or no and get its confidence, score an idea from 0 to 100, or let it pick the best option.",
+  "inLanguage": "en-CA"
+ },
+ {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Super Duper Intelligence",
+  "url": "https://superduperintelligence.ca/",
+  "description": "A Canadian flag with a thinking brain. Ask yes or no and get its confidence, score an idea from 0 to 100, or let it pick the best option.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and WebGL",
+  "inLanguage": "en-CA",
+  "image": "https://superduperintelligence.ca/og-image.png",
+  "offers": {
+   "@type": "Offer",
+   "price": "0",
+   "priceCurrency": "CAD"
+  }
+ }
+]</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js">
+<link rel="preload" href="assets/brain.glb" as="fetch" crossorigin>
+<link rel="stylesheet" href="style.css?v=9">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+  <!-- The flag. Bands are always left and right. Widths come from --band per version. -->
+  <svg class="flag" aria-hidden="true" preserveAspectRatio="none">
+    <rect class="flag-white" x="0" y="0" width="100%" height="100%" fill="#FFFFFF"/>
+    <rect class="flag-band flag-band-left" x="0" y="0" height="100%" fill="#D52B1E"/>
+    <rect class="flag-band flag-band-right" y="0" height="100%" fill="#D52B1E"/>
+  </svg>
+
+  <!-- A sheen that sweeps down the bands on lobe click, hinting they open. -->
+  <div class="sheen sheen-left" aria-hidden="true"></div>
+  <div class="sheen sheen-right" aria-hidden="true"></div>
+
+  <div class="edge-cue" aria-hidden="true"></div>
+  <canvas id="brain" aria-label="A red brain. Tap a part of the brain to change mode. Tap a red band to open it."></canvas>
+  <div id="modeName" class="mode-name" aria-live="polite"></div>
+
+  <!-- Left band: input. Hidden until the band is clicked. -->
+  <section id="panelLeft" class="panel panel-left" data-side="left" aria-hidden="true" inert>
+    <button class="panel-edge" data-close aria-label="Close panel"></button>
+    <div class="psheen" aria-hidden="true"></div>
+    <div class="panel-inner">
+      <div id="modeIntro">
+        <p class="eyebrow" id="inMode">Oracle</p>
+        <p class="hint" id="inHint">Ask a yes or no question.</p>
+      </div>
+      <div id="mentorLeft" class="mentor" hidden>
+        <p class="eyebrow">Mentor</p>
+        <h2 class="mentor-title">How it works</h2>
+        <ol class="steps">
+          <li>Tap a part of the brain to pick a mode.</li>
+          <li>Tap a red band to open its panel.</li>
+          <li>Drag the brain to turn it.</li>
+          <li>Pinch or scroll to zoom.</li>
+          <li id="closeStep">Click the band edge or press Escape to close it.</li>
+        </ol>
+        <button type="button" class="btn link" data-go="right">What it can do</button>
+      </div>
+      <form id="askForm" autocomplete="off">
+        <div class="field">
+          <textarea id="question" rows="3" maxlength="500" aria-label="Your question"></textarea>
+          <button type="submit" class="send" aria-label="Send">
+            <svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          </button>
+        </div>
+        <div id="guideBox" class="guide" hidden>
+          <p class="eyebrow small">Options</p>
+          <ol id="optionList" class="options"></ol>
+          <div class="row">
+            <button type="button" class="btn" id="addOption">Add option</button>
+            <button type="button" class="btn" id="suggest">Suggest</button>
+          </div>
+          <button type="submit" class="btn btn-wide" id="decideBtn">Decide</button>
+        </div>
+        <p class="status" id="status" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Right band: output. -->
+  <section id="panelRight" class="panel panel-right" data-side="right" aria-hidden="true" inert>
+    <button class="panel-edge" data-close aria-label="Close panel"></button>
+    <div class="psheen" aria-hidden="true"></div>
+    <div class="panel-inner">
+      <div id="mentorRight" class="mentor" hidden>
+        <p class="eyebrow">Mentor</p>
+        <h2 class="mentor-title">What it can do</h2>
+        <dl class="abilities">
+          <div><dt>Guide <span>front</span></dt><dd>Picks the best option.</dd></div>
+          <div><dt>Judge <span>top</span></dt><dd>Scores an idea from 0 to 100.</dd></div>
+          <div><dt>Oracle <span>back</span></dt><dd>Answers yes or no, with how sure it is.</dd></div>
+          <div><dt>Mentor <span>side</span></dt><dd>Shows you how it all works.</dd></div>
+        </dl>
+        <button type="button" class="btn link" data-go="left">How it works</button>
+      </div>
+      <div id="answer" class="answer"><p class="hint">Answers land here.</p></div>
+      <div class="history-wrap" id="historyWrap">
+        <p class="eyebrow small" id="historyTitle" hidden>History</p>
+        <ul id="history" class="history"></ul>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" src="app.js?v=9"></script>
+</body>
+</html>
