@@ -527,7 +527,7 @@ function askKey(wrong) {
 $('keyForm').addEventListener('submit', (e) => {
   e.preventDefault();
   const k = $('keyInput').value.trim(); if (!k) return;
-  store.set(KEY_STORE, k); $('keyGate').hidden = true;
+  store.set(KEY_STORE, k); $('keyInput').value = ''; $('keyGate').hidden = true;
   const w = keyWaiters; keyWaiters = []; w.forEach((f) => f());
 });
 $('changeKey').addEventListener('click', () => { store.del(KEY_STORE); askKey(false).then(() => { lastRev = 0; loadHistory(); }); });
